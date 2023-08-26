@@ -1,0 +1,75 @@
+---
+import "../styles/global.css";
+import NavigationBar from  '../components/NavigationBar.astro';
+import Footer from  '../components/Footer.astro';
+
+interface Props {
+    title: string
+}
+const {title} = Astro.props;
+
+
+---
+
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+        <meta name="description" content="Dhiraj Pradhan's website">
+		<title>{title}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+
+        <script is:inline>
+          const DARK_THEME_CLASS = "dark";
+
+          const COLOUR_MODE = "COLOUR_MODE";
+          const LIGHT_THEME = "LIGHT";
+          const DARK_THEME = "DARK";
+
+          /** Grab the document root element. In this case <html>  */
+          const rootEl = document.documentElement;
+
+          const getInitialColourMode = () => {
+              const prevMode = window.localStorage.getItem('COLOUR_MODE');
+              if(prevMode){
+                  return prevMode;
+              }
+
+              /** Does the user prefer dark mode, e.g., through an operating system or user agent setting? */
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              return DARK_THEME;
+              }
+
+              //Default theme as dark
+              return DARK_THEME;
+          }
+
+
+          const setInitialColourMode = (mode) => {
+              if(mode === LIGHT_THEME){
+                  rootEl.classList.remove(DARK_THEME_CLASS)
+              }else{
+                  rootEl.classList.add(DARK_THEME_CLASS)
+              }
+          }
+          const initialMode = getInitialColourMode();
+          setInitialColourMode(initialMode);
+        </script>
+	</head>
+	<body>
+		<main>
+            <NavigationBar />
+            {/* content */}
+            <slot />
+            <Footer />
+        </main>
+		
+	</body>
+</html>
